@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light" data-furigana="show" data-fontsize="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese Learning Hub – 日本語学習室 (Bài 4–7)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- SIDEBAR 10 MỤC (Không có Bài 3) -->
+    <aside class="sidebar" id="sidebar" aria-label="Điều hướng chính">
+      <div class="brand">
+        <div class="brand-jp" lang="ja" id="brand-jp"></div>
+        <div class="brand-vi">Japanese Learning Hub</div>
+        <span class="scope-badge">Dekiru N5 • Bài 4–7</span>
+      </div>
+
+      <nav class="nav-menu" id="nav-menu">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Tổng quan</span>
+        </button>
+        <button class="nav-item" data-view="roadmap">
+          <span class="nav-icon">🗺️</span>
+          <span class="nav-label">Lộ trình học (Bài 4–7)</span>
+        </button>
+        <button class="nav-item" data-view="vocab">
+          <span class="nav-icon">🗂️</span>
+          <span class="nav-label">Từ vựng & Flashcard</span>
+        </button>
+        <button class="nav-item" data-view="kanji">
+          <span class="nav-icon">漢</span>
+          <span class="nav-label">Kanji <span class="badge-soon">GĐ 4</span></span>
+        </button>
+        <button class="nav-item" data-view="grammar">
+          <span class="nav-icon">📘</span>
+          <span class="nav-label">Ngữ pháp & Trợ từ</span>
+        </button>
+        <button class="nav-item" data-view="conjugation">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">Chia ĐT & TT <span class="badge-soon">GĐ 2</span></span>
+        </button>
+        <button class="nav-item" data-view="practice">
+          <span class="nav-icon">✍️</span>
+          <span class="nav-label">Luyện tập <span class="badge-soon">GĐ 3</span></span>
+        </button>
+        <button class="nav-item" data-view="test">
+          <span class="nav-icon">⏱️</span>
+          <span class="nav-label">Kiểm tra <span class="badge-soon">GĐ 3</span></span>
+        </button>
+        <button class="nav-item" data-view="personal-dict">
+          <span class="nav-icon">⭐</span>
+          <span class="nav-label">Từ điển cá nhân</span>
+        </button>
+        <button class="nav-item" data-view="data-notes">
+          <span class="nav-icon">🔍</span>
+          <span class="nav-label">Ghi chú dữ liệu</span>
+          <span class="nav-alert" id="nav-data-alert" hidden>!</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div id="storage-status" class="storage-status"></div>
+      </div>
+    </aside>
+
+    <!-- KHU VỰC NỘI DUNG CHÍNH -->
+    <div class="main-wrapper">
+      <!-- TOPBAR CÀI ĐẶT NHANH -->
+      <header class="topbar">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Mở menu">☰</button>
+        <div class="topbar-title" id="topbar-title">Tổng quan</div>
+        <div class="topbar-controls">
+          <button class="ctrl-btn" id="toggle-furigana" title="Bật/tắt hiển thị Furigana (khi ẩn vẫn xem được bằng cách chạm/di chuột)">
+            <span lang="ja"><ruby>漢<rt>かん</rt></ruby></span> Furigana: <strong id="furi-state-text">Hiện</strong>
+          </button>
+          <button class="ctrl-btn" id="cycle-fontsize" title="Đổi cỡ chữ">
+            A↕ <span id="fontsize-state-text">Vừa</span>
+          </button>
+          <button class="ctrl-btn" id="toggle-theme" title="Chế độ Sáng / Tối">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- BANNER CẢNH BÁO NẾU CÓ LỖI DỮ LIỆU / BỘ NHỚ -->
+      <div id="system-banner" class="system-banner" hidden></div>
+
+      <!-- NỘI DUNG ĐỘNG THEO VIEW -->
+      <main id="app-view" class="app-view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <!-- TOOLTIP HOVER DICTIONARY TOÀN CỤC -->
+  <div id="hover-tooltip" class="hover-tooltip" role="tooltip" aria-hidden="true" hidden></div>
+
+  <!-- MODAL CHI TIẾT TỪ VỰNG -->
+  <div id="word-modal" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-word-title">
+      <div class="modal-header">
+        <h3 id="modal-word-title">Chi tiết từ vựng</h3>
+        <button class="btn-icon" id="close-word-modal" aria-label="Đóng">✕</button>
+      </div>
+      <div class="modal-body" id="modal-word-body"></div>
+    </div>
+  </div>
+
+  <!-- NẠP DỮ LIỆU & CÁC MODULE LÕI (Thứ tự chuẩn, không cần bundler) -->
+  <script src="data/data.js"></script>
+  <script src="js/furigana.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/tokenizer.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
